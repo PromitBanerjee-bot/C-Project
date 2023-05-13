@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Book {
+    char title[50];
+    char author[50];
+    int book_id;
+    int availability;
+} books[100];
+
+int num_books = 0;
+
+void add_book() {
+    printf("Enter book title: ");
+    scanf("%s", books[num_books].title);
+    printf("Enter book author: ");
+    scanf("%s", books[num_books].author);
+    printf("Enter book ID: ");
+    scanf("%d", &books[num_books].book_id);
+    books[num_books].availability = 1;
+    num_books++;
+    printf("Book added successfully!\n\n");
+}
+
+void display_books() {
+    printf("List of available books:\n");
+    for (int i = 0; i < num_books; i++) {
+        if (books[i].availability == 1) {
+            printf("Title: %s\n", books[i].title);
+            printf("Author: %s\n", books[i].author);
+            printf("Book ID: %d\n\n", books[i].book_id);
+        }
+    }
+}
+
+void borrow_book() {
+    int book_id;
+    printf("Enter book ID to borrow: ");
+    scanf("%d", &book_id);
+    for (int i = 0; i < num_books; i++) {
+        if (books[i].book_id == book_id) {
+            if (books[i].availability == 1) {
+                books[i].availability = 0;
+                printf("Book borrowed successfully!\n\n");
+                return;
+            } else {
+                printf("Sorry, book is already borrowed.\n\n");
+                return;
+            }
+        }
+    }
+    printf("Sorry, book ID not found.\n\n");
+}
+
+void return_book() {
+    int book_id;
+    printf("Enter book ID to return: ");
+    scanf("%d", &book_id);
+    for (int i = 0; i < num_books; i++) {
+        if (books[i].book_id == book_id) {
+            if (books[i].availability == 0) {
+                books[i].availability = 1;
+                printf("Book returned successfully!\n\n");
+                return;
+            } else {
+                printf("Sorry, book is not borrowed.\n\n");
+                return;
+            }
+        }
+    }
+    printf("Sorry, book ID not found.\n\n");
+}
+
+int main() {
+    int choice;
+    printf("Welcome to the Library Management System\n");
+    while (1) {
+        printf("Please select an option:\n");
+        printf("1. Add book\n");
+        printf("2. Display available books\n");
+        printf("3. Borrow book\n");
+        printf("4. Return book\n");
+        printf("5. Exit\n");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                add_book();
+                break;
+            case 2:
+                display_books();
+                break;
+            case 3:
+                borrow_book();
+                break;
+            case 4:
+                return_book();
+                break;
+            case 5:
+                printf("Thank you for using the Library Management System!\n");
+                return 0;
+            default:
+                printf("Invalid choice, please try again.\n\n");
+        }
+    }
+}
+
+
